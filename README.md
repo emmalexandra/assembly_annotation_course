@@ -26,14 +26,14 @@ Available from: http://dx.doi.org/10.1038/s41467-020-14779-y
 
 | Script | Purpose |
 |---|---|
-| `01_run_fastqc.sh` | Runs FastQC on raw HiFi and RNAseq reads to assess base quality, adapter content, and general read quality before assembly. |
+| `01_run_fastqc.sh` | Runs [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) on raw HiFi and RNAseq reads to assess base quality, adapter content, and general read quality before assembly. |
 | `02_kmer_counting.sh` | Runs `jellyfish count`/`histo` on HiFi reads to generate a k-mer frequency histogram, used with [GenomeScope](http://genomescope.org/genomescope2.0/) to estimate genome size and heterozygosity. These estimates informed downstream parameter choices (e.g. the `--diploid` decision for LJA, `--est-ref-size` for QUAST). |
 
 ### Genome & transcriptome assembly
 
 | Script | Purpose |
 |---|---|
-| `03_flye_assembly.sh` | Assembles the genome from HiFi reads using Flye (`--pacbio-hifi`). |
+| `03_flye_assembly.sh` | Assembles the genome from HiFi reads using [Flye](https://github.com/mikolmogorov/Flye) (`--pacbio-hifi`). |
 | `04_hifiasm_assembly.sh` | Assembles the genome from HiFi reads using [hifiasm](https://github.com/chhylp123/hifiasm); output `.gfa` converted to `.fa`. |
 | `05_lja_assembly.sh` | Assembles the genome from HiFi reads using [LJA](https://github.com/AntonBankevich/LJA/blob/main/docs/lja_manual.md). |
 | `06_trinity_assembly.sh` | Assembles a transcriptome from Illumina RNAseq reads using [Trinity](https://github.com/trinityrnaseq/trinityrnaseq/wiki). |
