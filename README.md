@@ -1,7 +1,7 @@
 # Assembly course: analysis pipeline overview
 
 This repository documents the genome assembly and evaluation pipeline for the
-*Arabidopsis thaliana* (accession Db-1) assembly annotation course project.
+*Arabidopsis thaliana* (accession Db-1) Genome and transcriptome assembly course project.
 
 ## Author: Emma Jakobsson
 
