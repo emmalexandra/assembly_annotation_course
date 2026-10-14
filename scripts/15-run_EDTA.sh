@@ -13,6 +13,7 @@
 #SBATCH --reservation=class-sbl-30004-2026-10-14
 
 # EDTA (Extensive de novo TE Annotator) is a pipeline designed for the annotation of both structurally intact and fragmented TEs.
+# https://github.com/oushujun/EDTA#edta-usage 
 
 # Stop on failed commands, unset variables, or failures within pipelines.
 set -euo pipefail
