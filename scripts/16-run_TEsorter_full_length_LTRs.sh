@@ -23,8 +23,8 @@ WORKDIR=/data/users/ejakobsson/assembly_annotation_course
 # Edit these two input paths to match your assembly's filename.
 RAW="$WORKDIR/output/EDTA"
 shopt -s nullglob
-FASTA=("$RAW"/assembly.fasta.mod.EDTA.raw/LTR/assembly.fasta.mod.LTR.intact.raw.fa)
-GFF=("$RAW"/assembly.fasta.mod.EDTA.raw/LTR/assembly.fasta.mod.LTR.intact.raw.gff3)
+FASTA=("$RAW"/assembly.fasta.mod.EDTA.raw/assembly.fasta.mod.LTR.intact.raw.fa)
+GFF=("$RAW"/assembly.fasta.mod.EDTA.raw/assembly.fasta.mod.LTR.intact.raw.gff3)
 
 OUTDIR="$WORKDIR/output/LTR_full_length"
 unset SINGULARITY_BIND APPTAINER_BIND SINGULARITY_TMPDIR

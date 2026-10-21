@@ -2,15 +2,15 @@
 #SBATCH --job-name=EDTA_annotation
 #SBATCH --partition=pibu_el8
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=20
-#SBATCH --mem=96GB
-#SBATCH --time=6-00:00:00
+#SBATCH --cpus-per-task=10
+#SBATCH --mem=128GB
+#SBATCH --time=4-00:00:00
 #SBATCH --mail-user=emma.jakobsson@students.unibe.ch
 #SBATCH --mail-type=fail,end
 #SBATCH --output=/data/users/ejakobsson/logs/assembly_annotation_course/output_edta_%j.o
 #SBATCH --error=/data/users/ejakobsson/logs/assembly_annotation_course/error_edta_%j.e
 #SBATCH --account=class-sbl-30004-ws-2026
-#SBATCH --reservation=class-sbl-30004-2026-10-14
+#SBATCH --reservation=class-sbl-30004-2026-10-21
 
 # EDTA (Extensive de novo TE Annotator) is a pipeline designed for the annotation of both structurally intact and fragmented TEs.
 # https://github.com/oushujun/EDTA#edta-usage 
@@ -48,10 +48,12 @@ apptainer exec -C \
     --bind "$OUTDIR/tmp":/tmp --pwd "$OUTDIR" "$EDTA_SIF" \
     perl "$COURSEDIR/tools/EDTA_master/EDTA.pl" \
     --genome "$GENOME" \
+    --overwrite 0 \
     --species others \
     --step all \
     --sensitive 1 \
     --cds "$CDS" \
     --anno 1 \
     --wholeelement 1 \
+    --overwrite 1 \
     --threads "$SLURM_CPUS_PER_TASK"
