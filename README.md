@@ -59,3 +59,4 @@ Available from: http://dx.doi.org/10.1038/s41467-020-14779-y
 ## Notes
 
 - Due to an technical error in the LJA tool, an LJA assembly could not be successfully generated from accession Db-1, and the assembly was thus not used in any downstream analysis.
+- Some kind of error with EDTA tool: no Gypsy and very few Copia detected (most marked simply as "unknown")
