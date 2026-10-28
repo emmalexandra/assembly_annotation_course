@@ -8,10 +8,8 @@
 #SBATCH --time=7-00:00:00
 #SBATCH --mail-user=emma.jakobsson@students.unibe.ch
 #SBATCH --mail-type=fail,end
-#SBATCH --output=/data/users/ejakobsson/logs/assembly_annotation_course/output_TEplot_%j.o
-#SBATCH --error=/data/users/ejakobsson/logs/assembly_annotation_course/error_TEplot_%j.e
-#SBATCH --account=class-sbl-30004-ws-2026
-#SBATCH --reservation=class-sbl-30004-2026-10-21
+#SBATCH --output=/data/users/ejakobsson/logs/assembly_annotation_course/output_maker_%j.o
+#SBATCH --error=/data/users/ejakobsson/logs/assembly_annotation_course/error_maker_%j.e
 
 set -euo pipefail
 
@@ -30,8 +28,11 @@ AUGUSTUS_CONFIG_PATH="$COURSEDIR/tools/MAKER/augustus_config"
 # The copy below uses YOUR EDITED project files, then runs MAKER in output/MAKER.
 unset SINGULARITY_BIND APPTAINER_BIND SINGULARITY_TMPDIR
 mkdir -p "$OUTDIR/tmp"
-cp "$WORKDIR/maker_opts.ctl" "$WORKDIR/maker_bopts.ctl" \
-    "$WORKDIR/maker_exe.ctl" "$WORKDIR/maker_evm.ctl" "$OUTDIR/"
+cp "$WORKDIR/control_files/maker_opts.ctl" \
+    "$WORKDIR/control_files/maker_bopts.ctl" \
+    "$WORKDIR/control_files/maker_exe.ctl" \
+    "$WORKDIR/control_files/maker_evm.ctl" \
+    "$OUTDIR/"
 cd "$OUTDIR"
 
 
@@ -42,6 +43,3 @@ apptainer exec --cleanenv --env AUGUSTUS_CONFIG_PATH="$AUGUSTUS_CONFIG_PATH" \
     mpiexec -launcher fork -n "$SLURM_CPUS_PER_TASK" \
     maker -mpi --ignore_nfs_tmp -TMP /TMP \
     maker_opts.ctl maker_bopts.ctl maker_exe.ctl maker_evm.ctl
-
-
-

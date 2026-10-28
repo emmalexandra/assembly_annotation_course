@@ -23,7 +23,7 @@ SIF="$COURSEDIR/containers/Annotation_analysis_R4.4.sif"
 # Input and output
 ASSEMBLY="$WORKDIR/assemblies/flye/assembly.fasta"
 TEANNO="$WORKDIR/output/EDTA/assembly.fasta.mod.EDTA.TEanno.gff3"
-RSCRIPT="$WORKDIR/scripts/18-annotation_circlize.R"
+RSCRIPT="$WORKDIR/scripts/19-annotation_circlize.R"
 PLOTDIR="$WORKDIR/output/circlize"
 
 # Names must match what the R script reads
