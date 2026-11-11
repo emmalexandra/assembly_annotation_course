@@ -1,0 +1,38 @@
+#!/bin/bash
+
+#SBATCH --job-name=genespace
+#SBATCH --partition=pibu_el8
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=20
+#SBATCH --mem=64G
+#SBATCH --time=02:00:00
+#SBATCH --mail-user=emma.jakobsson@students.unibe.ch
+#SBATCH --mail-type=fail,end
+#SBATCH --output=/data/users/ejakobsson/logs/assembly_annotation_course/output_genespace_%j.o
+#SBATCH --error=/data/users/ejakobsson/logs/assembly_annotation_course/error_genespace_%j.e
+#SBATCH --account=class-sbl-30004-ws-2026
+#SBATCH --reservation=class-sbl-30004-2026-11-04
+
+set -euo pipefail
+
+WORKDIR=/data/users/ejakobsson/assembly_annotation_course
+COURSEDIR=/data/courses/genome_annotation_resources/2026
+GENESPACE_DIR="$WORKDIR/output/comparisons/GENESPACE"
+GENESPACE_SIF="$COURSEDIR/containers/genespace_latest.sif"
+
+# Host-backed temporary storage for R's parallel workers
+TMPDIR="$WORKDIR/output/comparisons/GENESPACE_R_tmp"
+mkdir -p "$TMPDIR"
+
+cd "$WORKDIR"
+
+# run genespace
+apptainer exec --cleanenv \
+  --bind /data \
+  --bind "$WORKDIR" \
+  --bind "$TMPDIR":/temp \
+  --env TMPDIR=/temp \
+  --pwd "$WORKDIR" \
+  "$GENESPACE_SIF" \
+  Rscript "$WORKDIR/scripts/35-genespace.R" "$GENESPACE_DIR"
