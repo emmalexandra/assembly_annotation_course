@@ -1,11 +1,13 @@
+#!/usr/bin/env Rscript
+
 library(tidyverse)
 
 
 # ============================================================================
 # Settings for your GENESPACE run
 # ============================================================================
-wd <- "/PATH/TO/OUTPUT/GENESPACE/"
-focal_genome <- "ACCESSION_ID" # Must match a genome in the pangenome table.
+wd <- "/data/users/ejakobsson/assembly_annotation_course/output/comparisons/GENESPACE/"
+focal_genome <- "Db_1" # Must match a genome in the pangenome table.
 
 options(tibble.width = Inf)
 
