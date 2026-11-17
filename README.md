@@ -4,7 +4,7 @@
 
 ## Content
 * **Part I**: (Scripts 01-14): Genome Assembly course
-* **Part II** (Scripts 15-31): Annotation and Organisation of Eukaryote genomes
+* **Part II** (Scripts 15-40): Annotation and Organisation of Eukaryote genomes
 
 
 # Part I: Genome assembly course
@@ -78,11 +78,11 @@ Available from: http://dx.doi.org/10.1038/s41467-020-14779-y
 | Script | Purpose |
 |---|---|
 | `15-run_EDTA.sh` | Runs [EDTA](https://github.com/oushujun/EDTA) (`--sensitive 1`, `--anno 1`, with the TAIR10 CDS file for purging gene sequences) to build a non-redundant TE library and a whole-genome TE annotation (`TElib.fa`, `TEanno.gff3`, `TEanno.sum`). |
-| `16-<name>.sh` | *(name hidden in screenshot, fill in)* |
+| `16-run_TEsorter_full_length_LTRs.sh` | Copies the intact LTR retrotransposon set from the EDTA raw output (`LTR.intact.raw.fa` and `.gff3`) into `output/LTR_full_length` and classifies it to clade level with [TEsorter](https://github.com/zhangrengang/TEsorter). The classification is used for the LTR identity plots in `17-generate_LTR_plots.sh`. |
 | `17-generate_LTR_plots.sh` | Plots the LTR-LTR identity distributions of full-length Copia and Gypsy elements (pooled and per clade), using the intact LTR set and the TEsorter clade classification. |
 | `18-run_circlize.sh` | Runs the circlize analysis that prepares the genome-wide TE and gene density data for the circular plot. |
 | `19-annotation_circlize.R` | R script that draws the circular (circlize) overview of the annotation across the largest contigs. |
-| `20-run_TEsorter_Gypsy_Copia.sh` | Classifies the intact LTR retrotransposons from EDTA to clade level with [TEsorter](https://github.com/zhangrengang/TEsorter) (`rexdb-plant` database), separating Copia and Gypsy. |
+| `20-run_TEsorter_Gypsy_Copia.sh` | Classifies the intact LTR retrotransposons from EDTA to clade level with [TEsorter](https://github.com/zhangrengang/TEsorter), separating Copia and Gypsy. |
 | `21-run_parsem.sh` | Runs `parseRM.pl` on the RepeatMasker output to produce the divergence landscape tables (1% bins) used for TE dating. |
 | `22-run_TE_plot_dating.sh` | Runs the TE landscape plotting and dating scripts on the `parseRM` output. |
 | `23-plot_div.R` | R script that plots the TE divergence landscape by superfamily. |
@@ -99,6 +99,20 @@ Available from: http://dx.doi.org/10.1038/s41467-020-14779-y
 | `29-filter_annotations.sh` | Adds the InterProScan results to the GFF (`ipr_update_gff`), computes the cumulative AED distribution, keeps models with AED < 1 and/or a Pfam domain (`quality_filter.pl`), restricts the GFF to gene, mRNA, exon, CDS and UTR features, and extracts the matching filtered protein and transcript FASTA files. |
 | `30-run_BUSCO.sh` | Produces the longest-isoform-per-gene FASTA files. Runs [BUSCO](https://busco.ezlab.org/) 5.4.2 (`brassicales_odb10`) on the longest protein and transcript sequences per gene to assess annotation completeness. |
 | `31-run_AGAT.sh` | Runs `agat_sp_statistics.pl` ([AGAT](https://github.com/NBISweden/AGAT) 1.4.1) on the final filtered GFF3 to report gene, mRNA, exon and intron counts and lengths. |
+| `32-run-blastp.sh` | Runs `blastp` (BLAST+ 2.15.0, e-value 1e-5, up to 10 targets) of the filtered protein sequences against the UniProt Viridiplantae (reviewed) and TAIR10 representative protein databases. For each query protein it keeps the best hit (highest bitscore) in `blastp_uniprot.besthits.tsv` and `blastp_TAIR10.besthits.tsv`. |
+| `33-add_uniprot_function.sh` | Transfers putative functions from the UniProt best hits to the annotation with `maker_functional_fasta` and `maker_functional_gff`, writing the protein FASTA and the gene GFF3 with UniProt descriptions (`maker_proteins.filtered.Uniprot.fasta`, `filtered.genes.Uniprot.gff3`). |
+
+### Comparative genomics and synteny
+
+| Script | Purpose |
+|---|---|
+| `34-prepare_genespace_inputs.sh` | Prepares the [GENESPACE](https://github.com/jtlovell/GENESPACE) input for five genomes: Db_1 (BED from the filtered gene GFF3 with 0-based starts, longest-isoform proteins with transcript suffixes removed), the TAIR10 reference, and three accessions from Lian et al. (Are_6, Est_0, Kar_1). Checks that BED and FASTA IDs match for each genome. |
+| `35-genespace.R` | R script that initialises and runs GENESPACE (MCScanX, 20 cores), then builds the pan-gene table with TAIR10 as the reference genome and saves it as `pangenome_matrix.rds`. |
+| `36-run_genespace.sh` | Script that runs `35-genespace.R` in the GENESPACE container. |
+| `37-process_pangenome.R` | R script that reads the TAIR10-reference pan-gene table, counts gene copies per pan-gene entry and accession, and classifies entries as core, accessory or accession-specific. It identifies copy-variable core entries for all recorded genes and for syntenic genes only (PASS + array), plots the copy numbers as a heatmap, and writes tables for the Db_1 and TAIR10 genes. |
+| `38-run_process_pangenome.sh` | Runs `37-process_pangenome.R` in the annotation analysis (R 4.4) container. |
+| `39-riparian.R` | R script that draws GENESPACE riparian (synteny) plots of Db_1 against TAIR10 and of all five genomes. Scaffolds are ordered by synteny, and contigs assembled in reverse orientation are flipped for display. |
+| `40-run_riparian.sh` | Runs `39-riparian.R` in the GENESPACE container. |
 
 
 ## Notes
